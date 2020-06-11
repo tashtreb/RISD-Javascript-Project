@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Merriweather+Sans|Nunito|Yanone+Kaffeesatz&display=swap" rel="stylesheet">
+<title>Seaglass Hunting Checklist</title>
+<style>
+/* credit bottom text */
+div {
+  border-bottom: none;
+    font-family: 'Nunito', sans-serif;
+    font-size: 12px;
+    padding-top: 14px;
+    padding-left: 70px;  
+}
+    
+/* Include the padding and border in an element's total width and height */
+* {
+  box-sizing: border-box;
+}  
+    
+#p1 {
+	font-size: 14px;
+	font-family: 'Nunito', sans-serif;
+	color: black;
+    text-align: left;
+}
+
+/* Remove margins and padding from the list */
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+/* Style the list items */
+ul li {
+  cursor: pointer;
+  position: relative;
+  padding: 12px 8px 12px 40px;
+  background: #eee;
+  font-size: 18px;
+  transition: 0.2s;
+  font-family: 'Nunito', sans-serif;
+}
+
+/* Set all odd list items to a different color (zebra-stripes) */
+ul li:nth-child(odd) {
+  background: #f9f9f9;
+}
+
+/* Darker background-color on hover */
+ul li:hover {
+  background: #ddd;
+}
+
+/* When clicked on, add a background color and strike out text */
+ul li.checked {
+  background: #888;
+  color: #fff;
+  text-decoration: line-through;
+}
+
+/* Add a "checked" mark when clicked on */
+ul li.checked::before {
+  content: '';
+  position: absolute;
+  border-color: #fff;
+  border-style: solid;
+  border-width: 0 2px 2px 0;
+  top: 10px;
+  left: 16px;
+  transform: rotate(45deg);
+  height: 15px;
+  width: 7px;
+}
+
+/* Style the header */
+.header {
+  background-color: #78c9bb;
+  font-family: 'Yanone Kaffeesatz', sans-serif;
+  font-size: 48px;
+  padding: 10px 40px 30px 40px;
+  color: white;
+  text-align: center;
+}
+
+/* Clear floats after the header */
+.header:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Style the input */
+input {
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  width: 75%;
+  padding: 10px;
+  float: left;
+  font-size: 16px;
+}
+
+.checkbox {
+	position: fixed;
+	top: 5px;
+	width: 5px;
+	transform: scale(1.8);
+	float: left;
+}
+
+/* Style the "Add" button */
+.addBtn {
+  padding: 10px;
+  width: 25%;
+  background: #d9d9d9;
+  color: #555;
+  float: left;
+  text-align: center;
+    font-family: 'Nunito', sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+  border-radius: 0;
+}
+
+.addBtn:hover {
+  background-color: #bbb;
+}
+
+.myImg {
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.myImg:hover {
+  opacity: 0.7;
+}   
+    
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  -webkit-animation-name: fadeIn; /* Fade in the background */
+  -webkit-animation-duration: 0.4s;
+  animation-name: fadeIn;
+  animation-duration: 0.4s
+}
+    
+/* Modal Content (image) */
+
+.modal-content {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+}
+
+/* Modal Content */
+.modal-content {
+  position: fixed;
+    padding: 20px;
+  bottom: 0;
+  background-color: #fefefe;
+  width: 100%;
+  -webkit-animation-name: slideIn;
+  -webkit-animation-duration: 0.4s;
+  animation-name: slideIn;
+  animation-duration: 0.2s
+}
+    
+/* Caption of Modal Image */
+
+#caption {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+  text-align: left;
+  color: #ccc;
+  padding: 10px 0;
+  height: 150px;
+}
+    
+    
+    
+/* The Close Button */
+.close {
+  color: #fefefe;
+  float: right;
+  font-size: 45px;
+  font-weight: bold;
+    padding-right: 15px;
+    padding-top: 15px;
+}
+
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-header {
+  padding: 2px 16px;
+  background-color: #78c9bb;
+  color: white;
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+    font-size: 20px;
+}
+
+.modal-body {padding: 2px 16px;}
+
+.modal-footer {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+    
+/* Add Animation */
+@-webkit-keyframes slideIn {
+  from {bottom: -300px; opacity: 0} 
+  to {bottom: 0; opacity: 1}
+}
+
+@keyframes slideIn {
+  from {bottom: -300px; opacity: 0}
+  to {bottom: 0; opacity: 1}
+}
+
+@-webkit-keyframes fadeIn {
+  from {opacity: 0} 
+  to {opacity: 1}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0} 
+  to {opacity: 1}
+}
+</style>
+
+</head>
+<body>
+    <div id="myDIV" class="header">
+      <h2>Seaglass Hunting Checklist</h2>
+      <input type="text" id="myInput" placeholder="Searching for...">
+      <span onclick="newElement()" class="addBtn">Add</span>
+    </div>
+
+	<!-- The Modal -->
+    <!-- MODAL HEADER -->
+	<div id="myModal" class="modal">
+	  <div class="modal-content">
+          <div class="modal-header">
+      <span class="close">&times;</span>
+      <h2>Facts and Figures</h2>
+    </div>
+          
+    <!-- MODAL CONTENT -->
+    <div class="modal-body">
+    </div>
+        <img id="myImg" src="images/turtle.jpg" width="400" height="350">
+          <p id="p1"></p>
+	  </div>
+    </div>
+    
+    <!-- List Items --> 
+    <ul id="myUL"></ul>
+<script>
+data = [];
+
+if (JSON.parse(localStorage.getItem("seaglass"))===null) {
+	data = [
+		['Orange', 'orange.jpg', 'The rarest seaglass color. It is likely that production of orange glass was limited, as it was difficult to consistently produce the same orange color between glass batches. Additionally, manufacturers found a general lack of demand for the color. Finding odds: 1/10,000 pieces collected.'],
+		['Red', 'red.jpg', 'A popular, coveted seaglass find. Most pieces of red seaglass originate from Victorian lamps and lanterns, stained glass, pieces of Depression glass, automobile brake lights and marine lights. Finding odds: 1/5,000 pieces collected.'],
+		['Turquoise', 'turquoise.jpg', 'The rarest blue seaglass, turquoise glass was used in tableware, antique flasks and art glass. Adding small amounts of copper or iron compounds to raw glass mixtures containing cobalt generated the teal glass color. Finding odds: 1/ 2500-5000 pieces collected.'],
+		['Yellow', 'yellow.jpg', 'Yellow glass was used in tableware and ornamental pieces in the 20th Century. These types of items were less frequently discarded near the shore, resulting in yellow seaglass’s rarity. Finding odds: 1/3000 pieces collected.'],
+		['Black Glass', 'black.jpg', 'Spirits and medicines often require protection from sunlight. Early glass manufacturers aimed to produce the darkest glass they could, developing some pieces that were nearly black. Finding odds: 1/2500 pieces collected.'],
+		['Teal', 'teal.jpg', 'Cobalt and iron combine to make teal glass. Like turquoise, consistency in batches of teal glass also proved to be difficult, leading to the seaglass’s rarity. Finding odds: 1/2500 pieces collected.'],
+		['Gray', 'gray.jpg', 'In early glass manufacturing, gray glass was viewed as an undesirable byproduct of making clear glass. Manganese was used to remove green and blue impurities from iron in sand, but if copper and iron were present in the process, the glass would develop a gray tint. Finding odds: 1/2000 pieces collected.'],
+		['Pink', 'pink.jpg', 'Primarily produced as elegant tableware during the Depression era, pink glass was manufactured using Selenium in the glass mixture. Finding odds: 1/1000 pieces collected.'],
+		['Aqua', 'aqua.jpg', 'To create rich aqua glass, copper was heavily included in the glass mixture. Prior to the 20th Century, soda, mineral water, beer, and fruit were commonly sold in aqua glass containers. Finding odds: 1/1000 pieces collected.'],
+		['Cobalt Blue', 'cobalt.jpg', 'Not the most rare but among the most popular seaglass colors, cobalt blue results from adding cobalt oxide to the molten glass mixture. Seaglass collectors and artists alike see great value in this color. Finding odds: 1/200 pieces collected.'],
+		['Opaque White', 'opaque.jpg', 'Also known as “Milk Glass,” opaque white glass was popular in the late 1800s, up through the 1950s. To acheive this level of opacity, tin or zinc compounds were added as the primary colorants to the glass mixture. Finding odds: 1/500 pieces collected.'],
+		['Citron', 'citron.jpg', 'Often used when bottling wine, citron seaglass is found more frequently in certain populated coastal locations than others. Citron glass was also used in the production of fruit jars and snuff jars, which can command high prices in the antique bottle collecting market. Finding odds: 1/250-500 pieces collected.'],
+		['Purple', 'purple.jpg', 'The amount of manganese in the glass determines the depth of its purple color. Prior to World War I, Germany was the United States’ primary source of manganese. After the war broke out, the United States began incorporating more Selenium in its glass manufacturing instead. Finding odds: 1/200-300 pieces collected.'],
+		['Soft Green', 'softgreen.jpg', 'The color of the iconic Coca Cola bottle, which debuted in 1915 and spent more than 60 years on the market. Iron is the primary ingredient in this recognizable color. Finding odds: 1/50-100 pieces collected.'],
+		['Soft Blue', 'softblue.jpg', 'In the late 19th to early 20th century, goods like soda, fruit, patent medicine, baking soda and ink were contained in soft blue bottles. Copper oxide was used as the colorant to achieve this hue. Finding odds: 1/50-100 pieces collected.'],
+		['Forest Green', 'forestgreen.jpg', 'There are several color tones that could technically classify as forest green. This color, like black glass, was chosen to protect contents from the sunlight. The forest green color was achieved by adding a generous amount of iron oxide and a little oxidized chromium to the glass mixture. Finding odds: 1/50 pieces collected.'],
+		['Lime Green', 'limegreen.jpg', 'Lime green glass is a bit more recent than the previous green colors, dating from the mid to late 1900s. Pieces of lime green seaglass are often thin and small as a reflection of modern glass manufacturing styles. Iron, oxidized chromium or cadmium sulfide lend lime green glass its yellowy appearance. Finding odds: 1/50 pieces collected.'],
+		['Golden Amber', 'goldenamber.jpg', 'The rarest brown seaglass color. Golden amber glass was used for spirit bottles, patent medicine bottles, and bitters bottles. Cerium colorant and iron lend this glass its color, and seaglass pieces are often thin as a result of being used for small bottles. Finding odds: 1/25-50 pieces collected.'],
+		['Amber', 'amber.jpg', 'A darker red than golden amber, straight amber glass was used to hold whiskey, bitters, snuff, and even poison in the late 19th century. This rich bottle color provided strong ultraviolet protection for its contents. Finding odds: 1/25-50 pieces collected.'],
+		['Jade', 'jade.jpg', 'Richer than the common Kelly Green, true jade glass can be identifed immediately by its thickness. Flasks, soda bottles, bitters, mineral waters, and even poison were stored in jade glass. Chromium grants this dark glass its color. Finding odds: 1/25 pieces collected.'],
+		['Kelly Green', 'kellygreen.jpg', 'A common seaglass find, though still satisfying due to its color. Contemporary beer and soda manufacturers com- monly store their products in Kelly green glass bottles. It became a popular glass color after the 1950’s, and the bottle’s thickness can affect the color we see. Finding odds: 2-3/10 pieces collected.'],
+		['Brown', 'brown.jpg', 'Brown glass has been used over a great deal of time to protect contents from sunlight. Iron combines with sulfur and carbon to achieve this common glass color. Finding a thick, squared off  piece of brown seaglass could indicate an antique find, though, as most modern bottles are rounded on the bottom. Finding odds: 3-4/10 pieces collected.'],
+		['Clear/White', 'whiteclear.jpg', 'Clear glass coming in contact with the sand and surf results in the frosty consistency of white, or clear, seaglass. Clear glass production is exceedingly common in the modern day, with very low risk of impurity winding up in the glass mixture. This is the leading color among seaglass hunters’ finds. Finding odds: 4/10 pieces collected.']
+	]; 
+   localStorage.setItem("seaglass", JSON.stringify(data));
+} else {
+	data = JSON.parse(localStorage.getItem("seaglass"));
+}
+//set up the checklist
+var checklist = '';
+for(i=0;i<data.length;i++) {
+	checklist += "<li onclick=\"showModal('" + data[i][0] + "')\"><input type='checkbox' class='box' />" + data[i][0] + "</li>";
+}
+document.getElementById("myUL").innerHTML = checklist;
+
+// Get the modal
+var modal = document.getElementById("myModal");
+var img = true;
+    
+//Getting ALL images
+var images = document.querySelectorAll('myImg');
+for(var i=0, len = images.length; i < len; i++){
+    images[i].addEventListener('click', openModal);
+}
+    
+var modalImg = $("#img01");
+var captionText = document.getElementById("caption");
+    
+if (img==true) {
+  $('myImg').click(function() {
+    modal.style.display = "block";
+    var newSrc = this.src;
+    modalImg.attr('src', newSrc);
+    captionText.innerHTML = this.alt;
+  });
+}
+
+function newElement() {
+    var item = $("#myInput").val();
+	$("#myUL").append('<li onclick="showModal(\'' + item + '\')"><input  type="checkbox" id="box-1" class="box" />' + item + '</li>');
+	data.push(new Array($("#myInput").val(),"turtle.jpg","Looking for " + item + " sea glass"));
+	localStorage.setItem("seaglass", JSON.stringify(data));
+}
+ 
+function showModal(content) {
+	i=0;
+	while(data[i][0] != content && i<data.length) {
+		i++;
+	}
+	modal.style.display = "block";
+	document.getElementById("p1").innerHTML = data[i][2];
+	document.getElementById("myImg").src = "images/" + data[i][1];
+} 
+    
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+    
+if (span) {
+    span.onclick = function() {
+    modal.style.display = "none";
+  };
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+	modal.style.display = "none";
+  }
+}  
+
+function onClickBox() {
+    var arr = $('.box').map(function() {
+    return this.checked;
+  }).get();
+  localStorage.setItem("checked", JSON.stringify(arr));
+}
+
+$(document).ready(function() {
+    var arr = JSON.parse(localStorage.getItem('checked')) || [];
+  arr.forEach(function(checked, i) {
+    $('.box').eq(i).prop('checked', checked);
+  });
+
+  $(".box").click(onClickBox);
+});
+</script>
+
+<div>Information and images retrieved from the book "Pure Seaglass" by Richard LaMotte, photography by Celia Pearson.</div>
+</body>
+</html> 
